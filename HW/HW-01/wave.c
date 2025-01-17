@@ -3,7 +3,7 @@
 #include <math.h>
 #include <time.h>
 
-#define SAVE 1
+//#define SAVE 1
 
 double linspace(double *arr, double min, double max, int n){
     // Helper for initializing linearly-spaced array
@@ -67,7 +67,7 @@ int fprintArr(FILE *arrFile, double *arr, int len){
     return 0;
 }
 
-int makeWave() {
+int main(void){
     // Init positional grid
     double xmin=0; double xmax=10;
     int nx=512;
@@ -108,25 +108,4 @@ int makeWave() {
     fclose(yfile);
     free(xarr); free(tarr); free(yarr); free(varr); free(aarr);
     return 0;
-}
-
-int main(void){
-    #ifdef SAVE
-        printf("Waves will be saved to y.csv, expect slowdowns!\n");
-    #else
-        printf("Warning: Waves will not be saved!\n");
-    #endif
-
-    // Timing setup borrowed from https://stackoverflow.com/questions/459691/best-timing-method-in-c
-    clock_t start = clock(), diff;
-    makeWave();
-    diff = clock() - start;
-
-    int ms = diff * 1000 / CLOCKS_PER_SEC;
-    FILE* timeFile = fopen("times.log", "a");
-    #ifdef SAVE
-        fprintf(timeFile, "(saved to file) ");
-    #endif
-    fprintf(timeFile, "Time taken: %d seconds, %d ms\n", ms / 1000, ms % 1000);
-    printf("Time taken: %d seconds, %d ms\n", ms / 1000, ms % 1000);
 }
