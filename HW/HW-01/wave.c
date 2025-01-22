@@ -91,8 +91,10 @@ int main(void){
     double* aarr = malloc(sizeof(double) * nx); zeroArr(aarr, nx);
     double gamma = 1;
 
-    // Open file for writing
-    FILE *yfile = fopen("y.csv", "w");
+    #ifdef SAVE
+        // Open file for writing
+        FILE *yfile = fopen("y.csv", "w");
+    #endif
 
     // Iterate through time steps
     for (int i=0; i < nt; i++){

@@ -1,0 +1,113 @@
+\documentclass[9pt,technote]{IEEEtran}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Homework 1}
+\author{Emma Fountain}
+
+\maketitle
+
+\section{Implementation}
+
+I implemented the 1d-wave equation as explained by section 1 of the homework-1 prompt using the C programming language.
+
+There are 2 different versions of my code, one which simply calculates the appropriate values for the wave, and one which saves the y-values of the wave at each time step so that we can later render a wave animation. To save the y-values to disk, simply define the \texttt{SAVE} macro when compiling or remove it to disable saving.
+
+\section{Timing Study}
+
+I timed the code using the linux \texttt{time} command and I tested this code both on my local machine and on MSU's \href{https://ondemand.hpcc.msu.edu/}{HPCC}, with specs as shown in Table I. In order to (attempt to) take advantage of MSU HPCC's greater compute resources I used the cluster with the latest processor (amd22) and scaled up memory and number of cores by 4 compared to my laptop. I ran each version of the code 5 times, using the "user" time output from the \texttt{time} command then averaged the runtimes to get final estimates as shown in Table II below.
+
+My laptop actually significantly outperformed the MSU HPCC cluster. This is likely because my code is written completely in serial and there is no RAM bottlenecking so the additional HPCC resources are not actually being utilized. Due to this, since my processor's clock speed of 4.6 GHz is significantly faster than the HPCC's 2.6 GHz processor, it makes a lot of sense that my laptop outperformed the HPCC.
+
+\begin{table}
+
+    \renewcommand{\arraystretch}{1.3}
+    \caption{System Specs}
+    \centering
+
+    \begin{tabular}{|c||c|c|}
+        \hline
+         & \textbf{Laptop} & \textbf{MSU HPCC} \\
+        \hline \hline
+        \textbf{OS} & Arch Linux & Ubuntu \\
+        \hline
+        \textbf{CPU model} & Intel i7-11800H & AMD EPYC 7763 \\
+        \hline
+        \textbf{CPU cores} & 16 & 64 \\
+        \hline
+        \textbf{CPU speed} & 4.6 GHz & 2.6 GHz \\
+        \hline
+        \textbf{RAM} & 16 GiB & 64 GiB \\
+        \hline
+    \end{tabular}
+
+\end{table}
+
+\begin{table}
+
+    \renewcommand{\arraystretch}{1.3}
+    \caption{Timing Study Results (seconds)}
+    \centering
+
+    \begin{tabular}{|c||c|c|}
+        \hline
+         & \textbf{Laptop} & \textbf{HPCC} \\
+         \hline \hline
+        \textbf{Saving} & 60.6172 & 102.3548 \\
+        \hline
+        \textbf{No Saving} & 9.5982 & 15.3694 \\
+        \hline
+    \end{tabular}
+
+\end{table}
+
+\section{Wave Animation}
+
+Rather than create an animation using C, I opted to save the generated y-values of the wave to disk then use python with matplotlib to generate a GIF. I saved the y-values at each iteration as entries in a csv file called \texttt{y.csv} which I then loaded into python using the \texttt{numpy} package. Once this data was loaded, I use \texttt{matplotlib} to generate a GIF animation. Due to the large number of time-steps, I only sampled every 1000 steps, but this proved more than adequate to produce a high-quality animation (included as wave.gif in the tarball).
+
+\section{Improvements}
+
+The most obvious improvement would be parallelizing computations at each x-position when updating position, velocity, and acceleration.
+
+\pagebreak
+
+\section{Reproducing Results}
+
+\subsection{Timing Study (Unix-Based)}
+
+If you are using a unix-based OS, reproducing results should be fairly easy.
+
+\begin{enumerate}
+    \item Ensure gcc is installed
+    \item Uncompress and navigate to the project folder
+    \item Run \texttt{chmod u+x experiment.sh} to allow execution of the \texttt{experiment.sh} file.
+    \item Run \texttt{./experiment.sh}
+\end{enumerate}
+
+\subsection{Timing Study (Windows)}
+
+If you are using windows the only difference is that the \texttt{experiment.sh} file will not work so you must run each experiment yourself.
+
+\begin{enumerate}
+    \item Ensure gcc is installed
+    \item Uncompress and navigate to the project folder
+    \item Run \texttt{gcc wave.c -o wave.out -lm -D'SAVE'} to compile the program to save its output
+    \item In powershell run \texttt{Measure-Command \{ ./wave.out\} }  5 times
+    \item Run \texttt{gcc wave.c -o wave.out -lm} to compile the program without saving output
+    \item In powershell run \texttt{Measure-Command \{ ./wave.out\} } 5 times
+\end{enumerate}
+
+\subsection{Animation}
+
+If you would like to use the \texttt{y.csv} file to generate the animation the following steps should be OS-agnostic.
+
+\begin{enumerate}
+    \item Ensure \texttt{numpy} and \texttt{matplotlib} are installed in your current environment
+    \item Run \texttt{python makeVis.py}
+\end{enumerate}
+
+The new animation should be found in a file named \texttt{wave.gif}
+
+\end{document}
