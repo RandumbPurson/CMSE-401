@@ -107,7 +107,9 @@ int main(void){
     }
 
     // Cleanup
-    fclose(yfile);
+    #ifdef SAVE
+        fclose(yfile);
+    #endif
     free(xarr); free(tarr); free(yarr); free(varr); free(aarr);
     return 0;
 }
