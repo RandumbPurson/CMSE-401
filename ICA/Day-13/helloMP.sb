@@ -1,0 +1,5 @@
+#!/bin/bash --login
+
+#SBATCH --cpus-per-task=7
+
+srun helloMP.out

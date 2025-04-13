@@ -1,0 +1,9 @@
+#!/bin/bash --login
+
+#SBATCH --time 00:10:00
+#SBATCH --cpus-per-task=16
+#SBATCH --mem-per-cpu=1G
+#SBATCH --job-name=CMSE401-HW2-Parallel-Ofast
+#SBATCH --output=slurm-%x.%j.out
+
+srun experiment.sh

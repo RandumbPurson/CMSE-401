@@ -1,0 +1,11 @@
+#!/bin/bash --login
+
+#SBATCH --cpus-per-task=20
+#SBATCH --time=00:30:00
+
+export TIMEFORMAT=%R;
+for i in {1..20}; do
+    export OMP_NUM_THREADS=$i;
+    result=$((time10 srun wave.out) 2>&1);
+    echo $result;
+done

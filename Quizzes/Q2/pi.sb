@@ -1,0 +1,11 @@
+#!/bin/bash --login
+
+#SBATCH --time=00:05:00
+#SBATCH -N 1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=1G
+#SBATCH --job-name=CMSE401
+
+time10 pi
+
+time10 pi-p.out
