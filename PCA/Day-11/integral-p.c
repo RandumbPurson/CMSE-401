@@ -10,7 +10,11 @@ int main(int argc, char *argv[])
     double step = 1.0/(double) num_steps;
 
     // Set nthreads
+<<<<<<< HEAD
     int nthreads = (int) 5*log10((double) num_steps);
+=======
+    int nthreads = (int) num_steps/10;
+>>>>>>> 23dd6d3bd5f363fa8554153c43038efa7bf5197a
     omp_set_num_threads(nthreads);
     // Get steps per thread
     int steps_per_thread=(int) (num_steps / nthreads);

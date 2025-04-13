@@ -1,7 +1,12 @@
 all: gol 
 
+<<<<<<< HEAD
 CC:=nvcc
 EXT:=cu
+=======
+CC:=gcc
+EXT:=c
+>>>>>>> 23dd6d3bd5f363fa8554153c43038efa7bf5197a
 FLAGS:=-lm -lpng16
 
 gameoflife.o: gameoflife.$(EXT)
