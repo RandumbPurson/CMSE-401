@@ -1,0 +1,15 @@
+#!/bin/bash --login
+
+#SBATCH --time=04:00:00
+#SBATCH --mem=16GB
+#SBATCH --cpus-per-task=16
+#SBATCH --job-name=CMSE401-Proj-Parallel
+#SBATCH --output=slurm-%x-%j.out
+
+# Activate conda env
+module purge
+module load Miniforge3
+conda activate ./env
+
+# time and run for 5 legislators
+time python parallel.py -n 16 -m 5
