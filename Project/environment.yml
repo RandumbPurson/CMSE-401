@@ -1,0 +1,13 @@
+name: /home/emmaf/School/Courses/CMSE-401/CMSE-401/Project/env
+channels:
+  - conda-forge
+dependencies:
+  - ipykernel
+  - lxml
+  - numpy
+  - requests
+  - fake-useragent
+  - ca-certificates
+  - certifi
+  - openssl
+prefix: /home/emmaf/School/Courses/CMSE-401/CMSE-401/Project/env
